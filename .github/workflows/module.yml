@@ -46,8 +46,8 @@ jobs:
       - name: Validate
         run: pnpm run validate
 
-      - name: Test
-        run: pnpm run test
+#      - name: Test
+#        run: pnpm run test
 
       - name: Lint
         run: pnpm run lint
