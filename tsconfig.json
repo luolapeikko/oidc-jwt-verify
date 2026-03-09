@@ -1,6 +1,4 @@
 {
   "files": [],
-  "references": [
-    { "path": "./packages/oidc-jwt-verify" }
-  ]
+  "references": [{ "path": "./packages/oidc-jwt-verify" }]
 }
