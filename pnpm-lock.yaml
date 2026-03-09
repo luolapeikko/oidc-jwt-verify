@@ -77,9 +77,6 @@ importers:
       jsonwebtoken:
         specifier: ^9
         version: 9.0.3
-      tachyon-drive:
-        specifier: ^2.0.0
-        version: 2.0.0(@avanio/logger-like@0.2.12)(@luolapeikko/result-option@2.2.1)(@luolapeikko/ts-common@1.1.4)
 
   packages/oidc-jwt-verify-tachyon:
     dependencies:
