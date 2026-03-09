@@ -22,8 +22,9 @@
   },
   "out": "doc",
   "packageOptions": {
-    "entryPoints": ["src/index.ts", "src/index.mts"]
+    "entryPoints": ["src/index.ts"]
   },
+  "name": "@luolapeikko/oidc-jwt-verify",
   "plugin": ["typedoc-plugin-dt-links", "typedoc-plugin-mdn-links"],
   "readme": "README.md"
 }

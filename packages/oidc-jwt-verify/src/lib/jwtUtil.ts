@@ -1,7 +1,7 @@
 import * as jwt from 'jsonwebtoken';
 import type {TokenPayload} from '../interfaces/token';
 
-type JwtVerifyPromiseFunc<T = Record<string, unknown>> = (...params: Parameters<typeof jwt.verify>) => Promise<TokenPayload<T> | undefined>;
+export type JwtVerifyPromiseFunc<T = Record<string, unknown>> = (...params: Parameters<typeof jwt.verify>) => Promise<TokenPayload<T> | undefined>;
 
 /**
  * Jwt validate Promise wrapper for jwt.verify function

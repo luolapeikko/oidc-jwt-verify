@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import type {CertRecords, CertRecordsSchema} from '../interfaces/CertRecords';
 import {CertCache} from './CertCache';
 
-interface FileCertCacheProps {
+export interface FileCertCacheProps {
 	fileName?: string;
 	pretty?: boolean;
 	schema: CertRecordsSchema;
