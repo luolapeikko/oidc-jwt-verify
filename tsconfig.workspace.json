@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "oidc-jwt-verify": ["packages/oidc-jwt-verify/src/index.ts"]
+    }
+  },
+  "extends": "./tsconfig.base.json"
+}

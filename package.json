@@ -1,0 +1,44 @@
+{
+  "$schema": "https://www.schemastore.org/package.json",
+  "name": "oidc-jwt-verify-root",
+  "version": "1.0.0",
+  "description": "Root package for oidc-jwt-verify monorepo",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "build": "pnpm -r run build",
+    "pretest": "pnpm -r run build",
+    "lint": "biome check",
+    "lint:fix": "biome check --write",
+    "test": "vitest run --typecheck --coverage --no-file-parallelism",
+    "validate": "pnpm -r run validate",
+    "docs": "typedoc --options typedoc.json --tsconfig tsconfig.workspace.json"
+  },
+  "keywords": [],
+  "author": "mharj",
+  "repository": "github:luolapeikko/oidc-jwt-verify",
+  "homepage": "https://github.com/luolapeikko/oidc-jwt-verify#readme",
+  "bugs": {
+    "url": "https://github.com/luolapeikko/oidc-jwt-verify/issues"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^25.3.5",
+    "@vitest/coverage-v8": "^4.0.18",
+    "c8": "^11.0.0",
+    "dotenv": "^17.3.1",
+    "google-auth-library": "^10.6.1",
+    "googleapis": "^171.4.0",
+    "jsonwebtoken": "^9.0.3",
+    "tachyon-drive-node-fs": "^2.0.0",
+    "tachyon-expire-cache": "^2.0.0",
+    "tsdown": "^0.21.0",
+    "typescript": "^5.9.3",
+    "vite-tsconfig-paths": "^6.1.1",
+    "vitest": "^4.0.18",
+    "zod": "^4.3.6"
+  },
+  "packageManager": "pnpm@10.31.0+sha512.e3927388bfaa8078ceb79b748ffc1e8274e84d75163e67bc22e06c0d3aed43dd153151cbf11d7f8301ff4acb98c68bdc5cadf6989532801ffafe3b3e4a63c268"
+}

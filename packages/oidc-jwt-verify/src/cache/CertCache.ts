@@ -1,0 +1,37 @@
+import type {CertRecords} from '../interfaces/CertRecords';
+
+/**
+ * CertCache is an abstract class that defines the interface for caching public certificates used for JWT verification.
+ * @category CertCache
+ */
+export abstract class CertCache {
+	protected updateCallback: ((certs: CertRecords) => void) | undefined;
+	private ts: number | undefined;
+
+	public registerChangeCallback(callback: (certs: CertRecords) => void): void {
+		this.updateCallback = callback;
+	}
+
+	public handleInit(): void | Promise<void> {
+		return this.init();
+	}
+
+	public handleLoad(): CertRecords | Promise<CertRecords> {
+		return this.load();
+	}
+
+	public handleSave(certs: CertRecords): void | Promise<void> {
+		this.ts = certs._ts;
+		return this.save(certs);
+	}
+
+	protected handleUpdate(certs: CertRecords): void {
+		if (this.updateCallback && certs._ts !== this.ts) {
+			this.updateCallback(certs);
+		}
+	}
+
+	protected abstract init(): void | Promise<void>;
+	protected abstract load(): CertRecords | Promise<CertRecords>;
+	protected abstract save(certs: CertRecords): void | Promise<void>;
+}
