@@ -29,3 +29,5 @@ Tachyon Drive adapters for caches used by the core package.
 - Useful for file-backed or encrypted cache persistence
 
 Package README: `packages/oidc-jwt-verify-tachyon/README.md`
+
+### Documentation https://luolapeikko.github.io/oidc-jwt-verify/

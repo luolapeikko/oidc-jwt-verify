@@ -1,7 +1,7 @@
 {
   "$schema": "https://www.schemastore.org/package.json",
   "name": "@luolapeikko/oidc-jwt-verify-tachyon",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Tachyon Drive cache adapters for oidc-jwt-verify",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
@@ -21,13 +21,21 @@
     "build": "tsdown src/index.ts --format cjs,esm --dts --clean -c tsconfig.build.json",
     "validate": "tsc --noEmit"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "repository": "github:luolapeikko/oidc-jwt-verify",
   "homepage": "https://github.com/luolapeikko/oidc-jwt-verify#readme",
   "bugs": {
     "url": "https://github.com/luolapeikko/oidc-jwt-verify/issues"
   },
-  "keywords": ["jwt", "oidc", "validation", "jsonwebtoken", "openid"],
+  "keywords": [
+    "jwt",
+    "oidc",
+    "validation",
+    "jsonwebtoken",
+    "openid"
+  ],
   "author": "mharj",
   "license": "MIT",
   "devDependencies": {

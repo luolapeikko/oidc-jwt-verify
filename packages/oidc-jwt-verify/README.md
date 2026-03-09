@@ -1,12 +1,16 @@
 # @luolapeikko/oidc-jwt-verify
 
-[![Build Status](https://mharj.visualstudio.com/mharj-jwt-util/_apis/build/status/mharj.mharj-jwt-util?branchName=master)](https://mharj.visualstudio.com/mharj-jwt-util/_build/latest?definitionId=3&branchName=master) ![Azure DevOps coverage](https://img.shields.io/azure-devops/coverage/mharj/mharj-jwt-util/3) [![Maintainability](https://api.codeclimate.com/v1/badges/a60873c223b5bafadb1f/maintainability)](https://codeclimate.com/github/mharj/mharj-jwt-util/maintainability)
+[![TypeScript](https://badges.frapsoft.com/typescript/code/typescript.svg?v=101)](https://github.com/ellerbrock/typescript-badges/)
+[![npm version](https://badge.fury.io/js/@luolapeikko%2Foidc-jwt-verify.svg)](https://badge.fury.io/js/@luolapeikko%2Foidc-jwt-verify)
+[![Maintainability](https://qlty.sh/gh/luolapeikko/projects/oidc-jwt-verify/maintainability.svg)](https://qlty.sh/gh/luolapeikko/projects/oidc-jwt-verify)
+[![Code Coverage](https://qlty.sh/gh/luolapeikko/projects/oidc-jwt-verify/coverage.svg)](https://qlty.sh/gh/luolapeikko/projects/oidc-jwt-verify)
+[![CI/CD](https://github.com/luolapeikko/oidc-jwt-verify/actions/workflows/oidc-jwt-verify.yml/badge.svg)](https://github.com/luolapeikko/oidc-jwt-verify/actions/workflows/oidc-jwt-verify.yml)
 
-## Json Webtoken Utility to validate OpenID tokens against issuer public ssl keys
+## Json Webtoken Utility to validate OpenID JWT tokens against issuer public ssl keys
 
 - Can build public PEM cert from modulus + exponent (i.e. Google OIDC)
-- Caches issuer OpenID configuration 24h
-- New Token "kid" forces reloading jwks_uri data.
+- Caches issuer OpenID Connector configuration 24h
+- New Token "kid" forces reloading OpenID Connector jwks_uri data.
 
 Note: if running NodeJS less than 18.0.0 you need to install and use cross-fetch polyfill
 
