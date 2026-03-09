@@ -1,7 +1,7 @@
 {
   "$schema": "https://www.schemastore.org/package.json",
   "name": "@luolapeikko/oidc-jwt-verify",
-  "version": "1.0.0-beta",
+  "version": "1.0.0",
   "description": "Simple asymmetric JWT validation for OIDC tokens",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
