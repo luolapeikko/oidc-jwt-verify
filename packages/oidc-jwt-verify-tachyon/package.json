@@ -34,7 +34,7 @@
     "@luolapeikko/oidc-jwt-verify": "workspace:*"
   },
   "peerDependencies": {
-    "@luolapeikko/oidc-jwt-verify": ">= 1.0.0",
+    "@luolapeikko/oidc-jwt-verify": ">= 0.0.1",
     "@standard-schema/spec": "^1.1.0",
     "tachyon-drive": "^2.0.0"
   }
