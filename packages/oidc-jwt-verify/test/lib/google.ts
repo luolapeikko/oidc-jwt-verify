@@ -23,7 +23,10 @@ const parseJson = z.object({
 	token: z.string(),
 });
 
-export async function getGoogleIdToken() {
+export async function getGoogleIdToken(): Promise<string | undefined> {
+	if (!process.env.GOOGLE_CLIENT_EMAIL || !process.env.GOOGLE_CLIENT_KEY) {
+		return undefined;
+	}
 	const body = JSON.stringify({
 		audience: process.env.GOOGLE_CLIENT_EMAIL,
 		delegates: [],

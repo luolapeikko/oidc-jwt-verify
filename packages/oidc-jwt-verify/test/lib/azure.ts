@@ -4,7 +4,10 @@ const parseJson = z.object({
 	access_token: z.string(),
 });
 
-export async function getAzureAccessToken() {
+export async function getAzureAccessToken(): Promise<string | undefined> {
+	if (!process.env.AZ_CLIENT_ID || !process.env.AZ_CLIENT_SECRET || !process.env.AZ_TENANT_ID) {
+		return undefined;
+	}
 	// NOTE: Azure v2.0 accessToken is not atm valid JWT token (https://github.com/microsoft/azure-spring-boot/issues/476)
 	// eslint-disable-next-line @cspell/spellchecker
 	const body = `client_id=${process.env.AZ_CLIENT_ID}&client_secret=${process.env.AZ_CLIENT_SECRET}&grant_type=client_credentials&scope=https%3A%2F%2Fgraph.microsoft.com%2F.default`;

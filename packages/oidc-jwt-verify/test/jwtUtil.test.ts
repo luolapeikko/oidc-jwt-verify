@@ -23,9 +23,10 @@ import {
 } from '../src';
 import {getAzureAccessToken} from './lib/azure';
 import {getGoogleIdToken} from './lib/google';
+import {signPayload, startExpress, stopExpress} from './lib/localOidc';
 
-let GOOGLE_ID_TOKEN: string;
-let AZURE_ACCESS_TOKEN: string;
+let GOOGLE_ID_TOKEN: string | undefined;
+let AZURE_ACCESS_TOKEN: string | undefined;
 let icl: IssuerCertLoader;
 
 const tokenBodySchema = z.object({}).loose(); // or build token payload schema
@@ -62,8 +63,12 @@ function isAsymmetricJwt(data: Jwt | undefined | null): asserts data is Asymmetr
 	}
 }
 
+const certBased = signPayload({hello: 'world'}, {kid: 'forCert', issuer: 'http://localhost:7836', audience: 'test_audience', expiresIn: '1h', subject: 'test_subject'});
+const modExpBased = signPayload({hello: 'world'}, {kid: 'fromExponent', issuer: 'http://localhost:7836', audience: 'test_audience', expiresIn: '1h', subject: 'test_subject'});
+
 describe('jwtUtil', () => {
 	beforeAll(async () => {
+		await startExpress(7836);
 		[AZURE_ACCESS_TOKEN, GOOGLE_ID_TOKEN] = await Promise.all([getAzureAccessToken(), getGoogleIdToken()]);
 	});
 	describe('jwtVerifyPromise', () => {
@@ -91,11 +96,11 @@ describe('jwtUtil', () => {
 			await expect(jwtVerify(`Basic ${test}`)).rejects.toEqual(new JwtHeaderError('token header: wrong authentication header type'));
 		});
 		it('should not load issuer certs if not allowed', async () => {
-			expect(jwtHaveIssuer('https://accounts.google.com')).to.be.eq(false);
-			await expect(jwtVerify(GOOGLE_ID_TOKEN, {issuer: [] as unknown as [string, ...string[]]})).rejects.toEqual(
+			expect(jwtHaveIssuer('http://localhost:7836')).to.be.eq(false);
+			await expect(jwtVerify(modExpBased, {issuer: [] as unknown as [string, ...string[]]})).rejects.toEqual(
 				new JwtHeaderError('token header: issuer is not valid'),
 			);
-			expect(jwtHaveIssuer('https://accounts.google.com')).to.be.eq(false);
+			expect(jwtHaveIssuer('http://localhost:7836')).to.be.eq(false);
 		});
 	});
 	describe('tokens with FileCertCache', () => {
@@ -113,25 +118,25 @@ describe('jwtUtil', () => {
 			fileCertCache.setLogger(undefined);
 			await useCache(fileCertCache);
 		});
-		it('Test Google IdToken', async () => {
-			expect(jwtHaveIssuer('https://accounts.google.com')).to.be.eq(false);
-			const {body, isCached} = await jwtVerify(GOOGLE_ID_TOKEN, {issuer: ['https://accounts.google.com']});
+		it('Test ExpMod IdToken', async () => {
+			expect(jwtHaveIssuer('http://localhost:7836	')).to.be.eq(false);
+			const {body, isCached} = await jwtVerify(modExpBased, {issuer: ['http://localhost:7836']});
 			expect(body).not.to.be.eq(null);
 			expect(isCached).to.be.eq(false);
-			expect(jwtHaveIssuer('https://accounts.google.com')).to.be.eq(true);
+			expect(jwtHaveIssuer('http://localhost:7836')).to.be.eq(true);
 		});
-		it('Test Google IdToken cached', async () => {
-			const {body, isCached} = await jwtVerify(GOOGLE_ID_TOKEN);
+		it('Test ExpMod IdToken cached', async () => {
+			const {body, isCached} = await jwtVerify(modExpBased!);
 			expect(body).not.to.be.eq(null);
 			expect(isCached).to.be.eq(true);
 		});
 		it('Test jwt cache speed (jwt 100 times)', async () => {
 			for (let i = 0; i < 100; i++) {
-				await jwtVerify(GOOGLE_ID_TOKEN);
+				await jwtVerify(modExpBased!);
 			}
 		});
-		it('Test Google token as Bearer Token', async () => {
-			const {body, isCached} = await jwtBearerVerify<{test?: string}>(`Bearer ${GOOGLE_ID_TOKEN}`, {issuer: ['https://accounts.google.com']});
+		it('Test ExpMod token as Bearer Token', async () => {
+			const {body, isCached} = await jwtBearerVerify<{test?: string}>(`Bearer ${modExpBased}`, {issuer: ['http://localhost:7836']});
 			expect(body).not.to.be.eq(undefined);
 			expect(body.aud).not.to.be.eq(undefined);
 			expect(body.exp).not.to.be.eq(undefined);
@@ -160,22 +165,30 @@ describe('jwtUtil', () => {
 		});
 		it('Test non-valid issuer', async () => {
 			try {
-				await jwtBearerVerify(`Bearer ${GOOGLE_ID_TOKEN}`, {issuer: ['not_valid_issuer']});
+				await jwtBearerVerify(`Bearer ${modExpBased}`, {issuer: ['not_valid_issuer']});
 				throw new Error("should not happen as we don't have parameters");
 			} catch (_err) {
 				// ok
 			}
 		});
 		it('Test delete kid and check force reload', async () => {
-			const decoded = jwtDecode(GOOGLE_ID_TOKEN, {complete: true});
+			const decoded = jwtDecode(modExpBased!, {complete: true});
 			isAsymmetricJwt(decoded);
 			jwtDeleteKid(decoded.payload.iss, decoded.header.kid);
 			jwtDeleteKid('test', decoded.header.kid);
-			const decode = await jwtBearerVerify(`Bearer ${GOOGLE_ID_TOKEN}`, {issuer: ['https://accounts.google.com']});
+			const decode = await jwtBearerVerify(`Bearer ${modExpBased}`, {issuer: ['http://localhost:7836']});
 			expect(decode).not.to.be.eq(null);
 		});
-		it('test Azure ID Token ', async () => {
+		it('test Azure ID Token ', {skip: !AZURE_ACCESS_TOKEN}, async () => {
 			const decode = await jwtVerify(`Bearer ${AZURE_ACCESS_TOKEN}`);
+			expect(decode).not.to.be.eq(null);
+		});
+		it('test Cert based ID Token', async () => {
+			const decode = await jwtVerify(`Bearer ${certBased}`);
+			expect(decode).not.to.be.eq(null);
+		});
+		it('test Mod/Exp based ID Token', async () => {
+			const decode = await jwtVerify(`Bearer ${modExpBased}`);
 			expect(decode).not.to.be.eq(null);
 		});
 		afterAll(async () => {
@@ -217,5 +230,8 @@ describe('jwtUtil', () => {
 			const data = 'secretKey';
 			expect(buildCertFrame(data)).to.be.a('string');
 		});
+	});
+	afterAll(async () => {
+		await stopExpress();
 	});
 });

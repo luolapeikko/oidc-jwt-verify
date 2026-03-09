@@ -73,7 +73,7 @@ export class IssuerCertLoader implements ISetOptionalLogger {
 		return Boolean(this.store.certs[issuerUrl]);
 	}
 
-	private async getIssuerCert(certIssuerRecord: CertIssuerRecord, issuerUrl: string, kid: string): Promise<Buffer> {
+	private async getIssuerCert(certIssuerRecord: CertIssuerRecord, issuerUrl: string, kid: string): Promise<Buffer | string> {
 		let cert = certIssuerRecord[kid];
 		if (!cert) {
 			// we didn't find kid, reload all issuer certs
@@ -83,6 +83,11 @@ export class IssuerCertLoader implements ISetOptionalLogger {
 		if (!cert) {
 			// after issuer certs update, we still don't have cert for kid, throw out
 			throw new Error(`no key Id '${kid}' found for issuer '${issuerUrl}'`);
+		}
+		// If cert is already PEM-formatted (x5c certificate), return as string
+		// Otherwise (n/e, base64 DER), return as Buffer
+		if (cert.startsWith('-----BEGIN')) {
+			return cert;
 		}
 		return Buffer.from(cert);
 	}
@@ -153,7 +158,14 @@ export class IssuerCertLoader implements ISetOptionalLogger {
 			return rsaPublicKeyPem(cert.n, cert.e);
 		}
 		if (cert.x5c) {
-			return cert.x5c[0];
+			// x5c contains base64-encoded X.509 certificate in DER format
+			// Wrap it with CERTIFICATE PEM headers
+			const certBase64 = cert.x5c[0];
+			const match = certBase64.match(/.{1,64}/g);
+			if (!match) {
+				throw new Error('Invalid x5c certificate format');
+			}
+			return `-----BEGIN CERTIFICATE-----\n${match.join('\n')}\n-----END CERTIFICATE-----`;
 		} else {
 			throw new Error('no cert found');
 		}
