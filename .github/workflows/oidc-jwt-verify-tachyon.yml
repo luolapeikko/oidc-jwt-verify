@@ -1,0 +1,29 @@
+name: OIDC JWT Verify Tachyon Drive CI/CD
+on:
+  push:
+    branches: [main]
+    paths:
+      - "packages/oidc-jwt-verify-tachyon/**"
+      - ".github/workflows/oidc-jwt-verify-tachyon.yml"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - ".github/workflows/module.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "packages/oidc-jwt-verify-tachyon/**"
+      - ".github/workflows/oidc-jwt-verify-tachyon.yml"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - ".github/workflows/module.yml"
+
+permissions:
+  id-token: write # Required for OIDC
+  contents: read
+
+jobs:
+  module-flow:
+    uses: ./.github/workflows/module.yml
+    secrets: inherit
+    with:
+      package-path: packages/oidc-jwt-verify-tachyon
