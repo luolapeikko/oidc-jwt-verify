@@ -62,8 +62,14 @@ function isAsymmetricJwt(data: Jwt | undefined | null): asserts data is Asymmetr
 	}
 }
 
-const certBased = signPayload({hello: 'world'}, {kid: 'forCert', issuer: 'http://localhost:7836', audience: 'test_audience', expiresIn: '1h', subject: 'test_subject'});
-const modExpBased = signPayload({hello: 'world'}, {kid: 'fromExponent', issuer: 'http://localhost:7836', audience: 'test_audience', expiresIn: '1h', subject: 'test_subject'});
+const certBased = signPayload(
+	{hello: 'world'},
+	{kid: 'forCert', issuer: 'http://localhost:7836', audience: 'test_audience', expiresIn: '1h', subject: 'test_subject'},
+);
+const modExpBased = signPayload(
+	{hello: 'world'},
+	{kid: 'fromExponent', issuer: 'http://localhost:7836', audience: 'test_audience', expiresIn: '1h', subject: 'test_subject'},
+);
 
 describe('jwtUtil', () => {
 	beforeAll(async () => {
