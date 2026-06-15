@@ -1,11 +1,10 @@
-import tsconfigPaths from 'vite-tsconfig-paths';
 import {defineConfig} from 'vitest/config';
 
 export default defineConfig({
 	optimizeDeps: {
 		include: [],
 	},
-	plugins: [tsconfigPaths()],
+	plugins: [],
 	test: {
 		reporters: ['verbose', 'github-actions'],
 		coverage: {
@@ -18,4 +17,5 @@ export default defineConfig({
 		setupFiles: ['dotenv/config'],
 		typecheck: {include: ['**/*.test-d.ts']},
 	},
+	resolve: {tsconfigPaths: true},
 });
