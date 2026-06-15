@@ -1,7 +1,10 @@
 version: 2
 updates:
   - package-ecosystem: "npm"
-    directory: "/"
+    directories:
+      - "/"
+      - "/packages/oidc-jwt-verify"
+      - "/packages/oidc-jwt-verify-tachyon"
     schedule:
       interval: "weekly"
     allow:
