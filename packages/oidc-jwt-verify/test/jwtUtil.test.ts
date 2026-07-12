@@ -84,7 +84,7 @@ describe('jwtUtil', () => {
 	});
 	describe('jwtVerify', () => {
 		it('should fail if broken token format', async () => {
-			await expect(jwtVerify('asd')).rejects.toEqual(new JwtHeaderError('Not JWT token string format'));
+			await expect(jwtVerify('asd')).rejects.toEqual(new JwtHeaderError('token header: Not JWT token string format'));
 		});
 		it('should fail if broken token', async () => {
 			await expect(jwtVerify('asd.asd.asd')).rejects.toEqual(new JwtHeaderError("token header: Can't decode token"));
@@ -99,7 +99,7 @@ describe('jwtUtil', () => {
 		});
 		it('should fail if auth type is not Bearer', async () => {
 			const test = jwtSign({}, 'test', {issuer: 'https://accounts.google.com'});
-			await expect(jwtVerify(`Basic ${test}`)).rejects.toEqual(new JwtHeaderError('token header: wrong authentication header type'));
+			await expect(jwtVerify(`Basic ${test}`)).rejects.toEqual(new JwtHeaderError(`token header: Can't decode token`));
 		});
 		it('should not load issuer certs if not allowed', async () => {
 			expect(jwtHaveIssuer('http://localhost:7836')).to.be.eq(false);
@@ -195,6 +195,10 @@ describe('jwtUtil', () => {
 		});
 		it('test Mod/Exp based ID Token', async () => {
 			const decode = await jwtVerify(`Bearer ${modExpBased}`);
+			expect(decode).not.to.be.eq(null);
+		});
+		it('test Mod/Exp based ID Token', async () => {
+			const decode = await jwtVerify(`BEARER ${modExpBased}`);
 			expect(decode).not.to.be.eq(null);
 		});
 		afterAll(async () => {

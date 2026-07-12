@@ -80,9 +80,6 @@ importers:
 
   packages/oidc-jwt-verify:
     dependencies:
-      '@avanio/auth-header':
-        specifier: '>= 0.0.1'
-        version: 0.0.5
       '@avanio/expire-cache':
         specifier: ^0.6.7
         version: 0.6.10(@avanio/logger-like@0.2.12)(@luolapeikko/cache-types@0.0.10)
@@ -113,9 +110,6 @@ importers:
         version: link:../oidc-jwt-verify
 
 packages:
-
-  '@avanio/auth-header@0.0.5':
-    resolution: {integrity: sha512-YXtULAi4lGsRppKMrfVkSLtSQI9kagxLzcvYZgR1goaKzoYhaEZhWv+uhwDfIb4uKyUUqs2UjGPRHjF+PFYQFg==}
 
   '@avanio/expire-cache@0.6.10':
     resolution: {integrity: sha512-aAI/17oXXQMxqUf3c3Icia7ARTEzH/NdWueqhmyxmBPRdxIjZ44p1Gd0JB/7RLcYXljH7Qs9xhSdLeDQEdBgog==}
@@ -2011,8 +2005,6 @@ packages:
     resolution: {integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==}
 
 snapshots:
-
-  '@avanio/auth-header@0.0.5': {}
 
   '@avanio/expire-cache@0.6.10(@avanio/logger-like@0.2.12)(@luolapeikko/cache-types@0.0.10)':
     dependencies:

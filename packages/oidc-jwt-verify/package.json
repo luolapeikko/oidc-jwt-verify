@@ -1,7 +1,7 @@
 {
   "$schema": "https://www.schemastore.org/package.json",
   "name": "@luolapeikko/oidc-jwt-verify",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Simple asymmetric JWT validation for OIDC tokens",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
@@ -39,7 +39,6 @@
   "author": "mharj",
   "license": "MIT",
   "peerDependencies": {
-    "@avanio/auth-header": ">= 0.0.1",
     "@avanio/expire-cache": "^0.6.7",
     "@avanio/logger-like": ">= 0.1.0",
     "@luolapeikko/cache-types": ">= 0.0.1",

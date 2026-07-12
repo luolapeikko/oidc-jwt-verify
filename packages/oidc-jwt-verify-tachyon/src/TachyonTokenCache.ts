@@ -1,5 +1,6 @@
-import type {RawJwtToken, TokenPayload} from '@luolapeikko/oidc-jwt-verify';
+import type {RawJwtToken} from '@luolapeikko/oidc-jwt-verify';
 import type {StandardSchemaV1} from '@standard-schema/spec';
+import type * as jwt from 'jsonwebtoken';
 import type {IPersistSerializer} from 'tachyon-drive';
 
 export type CacheMap<T> = Map<RawJwtToken, {data: T; expires: number}>;
@@ -19,7 +20,7 @@ export type TokenCacheMapSchema<T> = StandardSchemaV1<unknown, CacheMap<T>>;
  * const bufferSerializer = buildTokenCacheBufferSerializer(zodTokenCacheMapSchema);
  * @since v0.8.0
  */
-export function buildTokenCacheBufferSerializer<T extends TokenPayload>(
+export function buildTokenCacheBufferSerializer<T extends jwt.JwtPayload>(
 	schema: TokenCacheMapSchema<T>,
 	name?: string,
 ): IPersistSerializer<CacheMap<T>, Buffer> {
@@ -44,7 +45,7 @@ export function buildTokenCacheBufferSerializer<T extends TokenPayload>(
  * const stringSerializer = buildTokenCacheStringSerializer(zodTokenCacheMapSchema);
  * @since v0.8.0
  */
-export function buildTokenCacheStringSerializer<T extends TokenPayload>(
+export function buildTokenCacheStringSerializer<T extends jwt.JwtPayload>(
 	schema: TokenCacheMapSchema<T>,
 	name?: string,
 ): IPersistSerializer<CacheMap<T>, string> {

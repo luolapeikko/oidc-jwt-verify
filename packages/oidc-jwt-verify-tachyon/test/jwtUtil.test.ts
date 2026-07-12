@@ -12,12 +12,11 @@ import {
 	type RawJwtToken,
 	setCertLoader,
 	setTokenCache,
-	type TokenPayload,
 	testGetCache,
 	useCache,
 } from '@luolapeikko/oidc-jwt-verify';
 import type {StandardSchemaV1} from '@standard-schema/spec';
-import {type Jwt, type JwtHeader, type JwtPayload, decode as jwtDecode, sign as jwtSign} from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 import {MemoryStorageDriver} from 'tachyon-drive';
 import {CryptoBufferProcessor, FileStorageDriver} from 'tachyon-drive-node-fs';
 import {TachyonExpireCache} from 'tachyon-expire-cache';
@@ -39,12 +38,12 @@ const certCacheSchema = z.object({certs: z.record(z.string(), z.record(z.string(
 >;
 
 type AsymmetricJwt = {
-	header: JwtHeader & {kid: string};
-	payload: JwtPayload & {iss: string};
+	header: jwt.JwtHeader & {kid: string};
+	payload: jwt.JwtPayload & {iss: string};
 	signature: string;
 };
 
-function isAsymmetricJwt(data: Jwt | undefined | null): asserts data is AsymmetricJwt {
+function isAsymmetricJwt(data: jwt.Jwt | undefined | null): asserts data is AsymmetricJwt {
 	if (!data) {
 		throw Error('not valid AsymmetricJwt');
 	}
@@ -98,7 +97,7 @@ describe('jwtUtil', () => {
 			expect(jwtHaveIssuer('http://localhost:7836')).to.be.eq(true);
 		});
 		it('Test Mod Exp IdToken cached', async () => {
-			setTokenCache(new TachyonExpireCache<TokenPayload, RawJwtToken>({name: 'TachyonExpireCache'}, driver)); // rebuild new cache
+			setTokenCache(new TachyonExpireCache<jwt.JwtPayload, RawJwtToken>({name: 'TachyonExpireCache'}, driver)); // rebuild new cache
 			const {body, isCached} = await jwtVerify(modExpBased);
 			expect(body).not.to.be.eq(null);
 			expect(isCached).to.be.eq(true);
@@ -128,7 +127,7 @@ describe('jwtUtil', () => {
 			}
 		});
 		it('Test non issuer token ', async () => {
-			const test = jwtSign({test: 'asd'}, 'secret');
+			const test = jwt.sign({test: 'asd'}, 'secret');
 			try {
 				await jwtVerify(test);
 				throw new Error("should not happen as we don't have parameters");
@@ -145,7 +144,7 @@ describe('jwtUtil', () => {
 			}
 		});
 		it('Test delete kid and check force reload', async () => {
-			const decoded = jwtDecode(modExpBased, {complete: true});
+			const decoded = jwt.decode(modExpBased, {complete: true});
 			isAsymmetricJwt(decoded);
 			jwtDeleteKid(decoded.payload.iss, decoded.header.kid);
 			jwtDeleteKid('test', decoded.header.kid);
@@ -178,7 +177,7 @@ describe('jwtUtil', () => {
 			expect(jwtHaveIssuer('http://localhost:7836')).to.be.eq(true);
 		});
 		it('Test Mod Exp IdToken cached', async () => {
-			setTokenCache(new TachyonExpireCache<TokenPayload, RawJwtToken>({name: 'TachyonExpireCache'}, driver)); // rebuild new cache
+			setTokenCache(new TachyonExpireCache<jwt.JwtPayload, RawJwtToken>({name: 'TachyonExpireCache'}, driver)); // rebuild new cache
 			const {body, isCached} = await jwtVerify(modExpBased);
 			expect(body).not.to.be.eq(null);
 			expect(isCached).to.be.eq(true);
@@ -208,7 +207,7 @@ describe('jwtUtil', () => {
 			}
 		});
 		it('Test non issuer token ', async () => {
-			const test = jwtSign({test: 'asd'}, 'secret');
+			const test = jwt.sign({test: 'asd'}, 'secret');
 			try {
 				await jwtVerify(test);
 				throw new Error("should not happen as we don't have parameters");
@@ -225,7 +224,7 @@ describe('jwtUtil', () => {
 			}
 		});
 		it('Test delete kid and check force reload', async () => {
-			const decoded = jwtDecode(modExpBased, {complete: true});
+			const decoded = jwt.decode(modExpBased, {complete: true});
 			isAsymmetricJwt(decoded);
 			jwtDeleteKid(decoded.payload.iss, decoded.header.kid);
 			jwtDeleteKid('test', decoded.header.kid);

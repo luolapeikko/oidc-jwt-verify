@@ -69,7 +69,7 @@ const tokenCacheMapSchema = z.map(
   z.object({ expires: z.number(), data: tokenBodySchema }),
 );
 const bufferSerializer = buildTokenCacheBufferSerializer(tokenCacheMapSchema);
-// const stringSerializer = buildTokenCacheStringSerializer<TokenPayload>(tokenCacheMapSchema); // if using string based Tachyon drivers
+// const stringSerializer = buildTokenCacheStringSerializer(tokenCacheMapSchema); // if using string based Tachyon drivers
 const processor = new CryptoBufferProcessor(Buffer.from("some-secret-key"));
 const driver = new FileStorageDriver(
   { name: "TokenStorageDriver", fileName: "./tokenCache.aes" },

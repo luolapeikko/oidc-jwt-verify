@@ -1,7 +1,6 @@
 import * as jwt from 'jsonwebtoken';
-import type {TokenPayload} from '../interfaces/token';
 
-export type JwtVerifyPromiseFunc<T = Record<string, unknown>> = (...params: Parameters<typeof jwt.verify>) => Promise<TokenPayload<T> | undefined>;
+export type JwtVerifyPromiseFunc = (...params: Parameters<typeof jwt.verify>) => Promise<jwt.JwtPayload>;
 
 /**
  * Jwt validate Promise wrapper for jwt.verify function
@@ -17,17 +16,19 @@ export type JwtVerifyPromiseFunc<T = Record<string, unknown>> = (...params: Para
  * console.log(decoded); // decoded token payload
  */
 export const jwtVerifyPromise: JwtVerifyPromiseFunc = (token, secretOrPublicKey, options?) => {
-	return new Promise<TokenPayload | undefined>((resolve, reject) => {
+	return new Promise<jwt.JwtPayload>((resolve, reject) =>
 		jwt.verify(token, secretOrPublicKey, options, (err: jwt.VerifyErrors | null, decoded: object | string | undefined) => {
 			if (err) {
 				reject(err);
 			} else {
 				if (typeof decoded === 'string') {
-					resolve(undefined);
+					reject(new Error('Jwt Decoded token is a string'));
+				} else if (!decoded) {
+					reject(new Error('Jwt Decoded token is undefined'));
 				} else {
 					resolve(decoded);
 				}
 			}
-		});
-	});
+		}),
+	);
 };

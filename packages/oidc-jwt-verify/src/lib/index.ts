@@ -1,4 +1,3 @@
-export * from './authUtil';
 export * from './issuerCertLoader';
 export * from './JwtHeaderError';
 export * from './jwtUtil';

@@ -1,7 +1,7 @@
 {
   "$schema": "https://www.schemastore.org/package.json",
   "name": "@luolapeikko/oidc-jwt-verify-tachyon",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Tachyon Drive cache adapters for oidc-jwt-verify",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
@@ -42,7 +42,7 @@
     "@luolapeikko/oidc-jwt-verify": "workspace:*"
   },
   "peerDependencies": {
-    "@luolapeikko/oidc-jwt-verify": ">= 0.0.1",
+    "@luolapeikko/oidc-jwt-verify": ">= 0.1.0",
     "@standard-schema/spec": "^1.1.0",
     "tachyon-drive": "^2.0.0"
   }
