@@ -56,7 +56,7 @@ export function setCertLoader(newIcl: IssuerCertLoader): void {
 	}
 }
 
-const algOptions = new Set(['HS256' , 'HS384' , 'HS512' , 'RS256' , 'RS384' , 'RS512' , 'ES256' , 'ES384' , 'ES512' , 'PS256' , 'PS384' , 'PS512' , 'none'] as const);
+const algOptions = new Set(['HS256', 'HS384', 'HS512', 'RS256', 'RS384', 'RS512', 'ES256', 'ES384', 'ES512', 'PS256', 'PS384', 'PS512', 'none'] as const);
 
 function getKeyIdAndSetOptions(decoded: FullDecodedIssuerTokenStructure, options: jwt.VerifyOptions = {}) {
 	const {kid, alg, typ} = decoded.header || {};
