@@ -1,7 +1,7 @@
 import {ExpireCache} from '@avanio/expire-cache';
 import type {ILoggerLike} from '@avanio/logger-like';
 import type {IAsyncCache} from '@luolapeikko/cache-types';
-import * as jwt from 'jsonwebtoken';
+import {type Algorithm, decode, type Jwt, type JwtPayload, type VerifyOptions} from 'jsonwebtoken';
 import type {CertCache} from '../cache/CertCache';
 import {type FullDecodedIssuerTokenStructure, isRawJwtToken} from '../interfaces/token';
 import {IssuerCertLoader} from './issuerCertLoader';
@@ -19,11 +19,11 @@ let certLoaderInstance = new IssuerCertLoader();
 /**
  * Cache for resolved token payloads, default is in memory cache
  */
-let tokenCache: IAsyncCache<jwt.JwtPayload> = new ExpireCache<jwt.JwtPayload>();
+let tokenCache: IAsyncCache<JwtPayload> = new ExpireCache<JwtPayload>();
 /***
  * Setup token cache for verified payloads, on production this should be encrypted if persisted
  */
-export function setTokenCache(cache: IAsyncCache<jwt.JwtPayload>): void {
+export function setTokenCache(cache: IAsyncCache<JwtPayload>): void {
 	tokenCache = cache;
 }
 
@@ -38,7 +38,7 @@ export function useCache(cacheFunctions: CertCache): Promise<void> {
 	return certLoaderInstance.setCache(cacheFunctions);
 }
 
-export function testGetCache(): IAsyncCache<jwt.JwtPayload> {
+export function testGetCache(): IAsyncCache<JwtPayload> {
 	/* istanbul ignore else  */
 	if (process.env.NODE_ENV === 'testing') {
 		return tokenCache;
@@ -58,7 +58,7 @@ export function setCertLoader(newIcl: IssuerCertLoader): void {
 
 const algOptions = new Set(['HS256', 'HS384', 'HS512', 'RS256', 'RS384', 'RS512', 'ES256', 'ES384', 'ES512', 'PS256', 'PS384', 'PS512', 'none'] as const);
 
-function getKeyIdAndSetOptions(decoded: FullDecodedIssuerTokenStructure, options: jwt.VerifyOptions = {}) {
+function getKeyIdAndSetOptions(decoded: FullDecodedIssuerTokenStructure, options: VerifyOptions = {}) {
 	const {kid, alg, typ} = decoded.header || {};
 	if (!kid) {
 		throw new JwtHeaderError('token header: missing kid parameter');
@@ -66,8 +66,8 @@ function getKeyIdAndSetOptions(decoded: FullDecodedIssuerTokenStructure, options
 	if (typ !== 'JWT') {
 		throw new JwtHeaderError(`token header: type "${typ}" is not valid`);
 	}
-	if (alg && algOptions.has(alg as jwt.Algorithm)) {
-		options.algorithms = [alg as jwt.Algorithm];
+	if (alg && algOptions.has(alg as Algorithm)) {
+		options.algorithms = [alg as Algorithm];
 	}
 	return kid;
 }
@@ -78,7 +78,7 @@ function getKeyIdAndSetOptions(decoded: FullDecodedIssuerTokenStructure, options
  * @param options jwt verification options
  * @returns IIssuerTokenStructure which have "iss" and valid issuer if limited on options
  */
-function haveValidIssuer(decoded: null | jwt.Jwt, options: jwt.VerifyOptions): FullDecodedIssuerTokenStructure {
+function haveValidIssuer(decoded: null | Jwt, options: VerifyOptions): FullDecodedIssuerTokenStructure {
 	if (!decoded) {
 		throw new JwtHeaderError(`token header: Can't decode token`);
 	}
@@ -101,7 +101,7 @@ function haveValidIssuer(decoded: null | jwt.Jwt, options: jwt.VerifyOptions): F
 /**
  * Response have decoded body and information if was already verified and returned from cache
  */
-export type JwtResponse<T extends object> = {body: T & jwt.JwtPayload; isCached: boolean};
+export type JwtResponse<T extends object> = {body: T & JwtPayload; isCached: boolean};
 /**
  * Verify JWT token against issuer public certs
  * @throws `JsonWebTokenError` if token is invalid
@@ -111,7 +111,7 @@ export type JwtResponse<T extends object> = {body: T & jwt.JwtPayload; isCached:
  * @param tokenOrBearer jwt token or Bearer string with jwt token
  * @param options jwt verify options
  */
-export async function jwtVerify<T extends object>(tokenOrBearer: string, options: jwt.VerifyOptions = {}): Promise<JwtResponse<T>> {
+export async function jwtVerify<T extends object>(tokenOrBearer: string, options: VerifyOptions = {}): Promise<JwtResponse<T>> {
 	if (typeof tokenOrBearer !== 'string') {
 		return Promise.reject(new JwtHeaderError('Token is not a string'));
 	}
@@ -121,11 +121,11 @@ export async function jwtVerify<T extends object>(tokenOrBearer: string, options
 	}
 	const cached = await tokenCache.get(token);
 	if (cached) {
-		return {body: cached as jwt.JwtPayload & T, isCached: true};
+		return {body: cached as JwtPayload & T, isCached: true};
 	}
-	const decoded = haveValidIssuer(jwt.decode(token, {complete: true}), options);
+	const decoded = haveValidIssuer(decode(token, {complete: true}), options);
 	const certString = await certLoaderInstance.getCert(decoded.payload.iss, getKeyIdAndSetOptions(decoded, options));
-	const verifiedDecode = (await jwtVerifyPromise(token, buildCertFrame(certString), options)) as T & jwt.JwtPayload;
+	const verifiedDecode = (await jwtVerifyPromise(token, buildCertFrame(certString), options)) as T & JwtPayload;
 	if (verifiedDecode.exp) {
 		await tokenCache.set(token, verifiedDecode, new Date(verifiedDecode.exp * 1000));
 	}
@@ -141,7 +141,7 @@ export async function jwtVerify<T extends object>(tokenOrBearer: string, options
  * @param authHeader raw authentication header with ^Bearer prefix
  * @param options jwt verify options
  */
-export function jwtBearerVerify<T extends object>(authHeader: string, options: jwt.VerifyOptions = {}): Promise<JwtResponse<T>> {
+export function jwtBearerVerify<T extends object>(authHeader: string, options: VerifyOptions = {}): Promise<JwtResponse<T>> {
 	const match = bearerRegex.exec(authHeader);
 	if (!match) {
 		return Promise.reject(new JwtHeaderError('No authentication header'));

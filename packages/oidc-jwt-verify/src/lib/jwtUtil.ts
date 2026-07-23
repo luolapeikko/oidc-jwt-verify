@@ -1,6 +1,6 @@
-import * as jwt from 'jsonwebtoken';
+import {type JwtPayload, type VerifyErrors, verify} from 'jsonwebtoken';
 
-export type JwtVerifyPromiseFunc = (...params: Parameters<typeof jwt.verify>) => Promise<jwt.JwtPayload>;
+export type JwtVerifyPromiseFunc = (...params: Parameters<typeof verify>) => Promise<JwtPayload>;
 
 /**
  * Jwt validate Promise wrapper for jwt.verify function
@@ -16,8 +16,8 @@ export type JwtVerifyPromiseFunc = (...params: Parameters<typeof jwt.verify>) =>
  * console.log(decoded); // decoded token payload
  */
 export const jwtVerifyPromise: JwtVerifyPromiseFunc = (token, secretOrPublicKey, options?) => {
-	return new Promise<jwt.JwtPayload>((resolve, reject) =>
-		jwt.verify(token, secretOrPublicKey, options, (err: jwt.VerifyErrors | null, decoded: object | string | undefined) => {
+	return new Promise<JwtPayload>((resolve, reject) =>
+		verify(token, secretOrPublicKey, options, (err: VerifyErrors | null, decoded: object | string | undefined) => {
 			if (err) {
 				reject(err);
 			} else {
