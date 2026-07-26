@@ -11,6 +11,9 @@ importers:
       '@biomejs/biome':
         specifier: ^2.5.5
         version: 2.5.5
+      '@luolapeikko/logger-type':
+        specifier: ^0.0.1
+        version: 0.0.1
       '@types/express':
         specifier: ^5.0.6
         version: 5.0.6
@@ -83,15 +86,18 @@ importers:
       '@avanio/expire-cache':
         specifier: ^0.6.7
         version: 0.6.10(@avanio/logger-like@0.2.12)(@luolapeikko/cache-types@0.0.10)
-      '@avanio/logger-like':
-        specifier: '>= 0.1.0'
-        version: 0.2.12
       '@luolapeikko/cache-types':
         specifier: '>= 0.0.1'
         version: 0.0.10
+      '@luolapeikko/logger-type':
+        specifier: '>= 0.0.1'
+        version: 0.0.1
       '@standard-schema/spec':
         specifier: ^1.1.0
         version: 1.1.0
+      '@types/jsonwebtoken':
+        specifier: ^9
+        version: 9.0.10
       jsonwebtoken:
         specifier: ^9
         version: 9.0.3
@@ -401,6 +407,9 @@ packages:
 
   '@luolapeikko/cache-types@0.0.10':
     resolution: {integrity: sha512-XVhXeIPL2gKDekPicqIPyQW3HAiZlfgoXSuOKto6p3beb/YV6o9tj+TC3wZNHyulJQ361VyGvKafF9xFsm746A==}
+
+  '@luolapeikko/logger-type@0.0.1':
+    resolution: {integrity: sha512-hZ1hY0EBFsDfSB85cB4uc/uh6lJvwL5K3dHQ4uAE0T6k8ZFGcxNuSodWo8xlZI3hkUQcnLBxMb3xq8e3pEJRXw==}
 
   '@luolapeikko/result-option@2.2.1':
     resolution: {integrity: sha512-0QffjTixx4gH+SXaIu0l3xZwcM8GedNbvtXX8gDpDxQoyH2Do0taXth9PnTiKPO6OL/tl3I/aS1UIn9jIdbtQg==}
@@ -2333,6 +2342,8 @@ snapshots:
       '@jridgewell/sourcemap-codec': 1.5.5
 
   '@luolapeikko/cache-types@0.0.10': {}
+
+  '@luolapeikko/logger-type@0.0.1': {}
 
   '@luolapeikko/result-option@2.2.1': {}
 

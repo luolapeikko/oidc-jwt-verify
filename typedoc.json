@@ -3,9 +3,6 @@
   "entryPointStrategy": "packages",
   "entryPoints": ["packages/*"],
   "externalSymbolLinkMappings": {
-    "@avanio/logger-like": {
-      "ILoggerLike": "https://mharj.github.io/logger-like/interfaces/ILoggerLike.html"
-    },
     "@luolapeikko/result-option": {
       "IResult": "https://luolapeikko.github.io/result-option/types/IResult.html"
     },

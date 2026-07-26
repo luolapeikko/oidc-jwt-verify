@@ -1,4 +1,4 @@
-import type {ILoggerLike, ISetOptionalLogger} from '@avanio/logger-like';
+import type {ILoggerLike} from '@luolapeikko/logger-type';
 import * as fs from 'fs';
 import type {CertRecords, CertRecordsSchema} from '../interfaces/CertRecords';
 import {CertCache} from './CertCache';
@@ -23,10 +23,10 @@ const initialCerts: CertRecords = {
  * const certCacheSchema = z.object({certs: z.record(z.string(), z.record(z.string(), z.string())), _ts: z.number()}) satisfies CertRecordsSchema;
  * await useCache(new FileCertCache({fileName: './certCache.json', schema: certCacheSchema}));
  */
-export class FileCertCache extends CertCache implements ISetOptionalLogger {
+export class FileCertCache extends CertCache {
+	public logger: ILoggerLike | undefined;
 	private file: string;
 	private pretty: boolean;
-	private logger: ILoggerLike | undefined;
 	private watcher: fs.FSWatcher | undefined;
 	private currentTimestamp = initialCerts._ts;
 	private schema: CertRecordsSchema;
@@ -39,10 +39,6 @@ export class FileCertCache extends CertCache implements ISetOptionalLogger {
 		this.pretty = pretty ?? false;
 		this.schema = schema;
 		this.handleUpdateCallback = this.handleUpdateCallback.bind(this);
-	}
-
-	public setLogger(logger: ILoggerLike | undefined): void {
-		this.logger = logger;
 	}
 
 	public close(): void {

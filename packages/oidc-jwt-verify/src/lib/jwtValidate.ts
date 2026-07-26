@@ -1,6 +1,6 @@
 import {ExpireCache} from '@avanio/expire-cache';
-import type {ILoggerLike} from '@avanio/logger-like';
 import type {IAsyncCache} from '@luolapeikko/cache-types';
+import type {ILoggerLike} from '@luolapeikko/logger-type';
 import jwt from 'jsonwebtoken';
 import type {CertCache} from '../cache/CertCache';
 import {type FullDecodedIssuerTokenStructure, isRawJwtToken} from '../interfaces/token';
@@ -28,7 +28,7 @@ export function setTokenCache(cache: IAsyncCache<jwt.JwtPayload>): void {
 }
 
 export function setJwtLogger(logger: ILoggerLike): void {
-	certLoaderInstance.setLogger(logger);
+	certLoaderInstance.logger = logger;
 }
 
 /**
