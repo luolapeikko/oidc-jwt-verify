@@ -121,7 +121,7 @@ describe('jwtUtil', () => {
 				pretty: true,
 				schema: certCacheSchema,
 			});
-			fileCertCache.setLogger(undefined);
+			fileCertCache.logger = undefined;
 			await useCache(fileCertCache);
 		});
 		it('Test ExpMod IdToken', async () => {
