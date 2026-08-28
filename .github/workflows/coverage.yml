@@ -6,6 +6,7 @@ on:
       - "packages/**/*.ts"
       - "vitest.config.mts"
       - ".github/workflows/coverage.yml"
+      - "package.json"
 
 permissions:
   contents: read
