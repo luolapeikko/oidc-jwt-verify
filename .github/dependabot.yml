@@ -4,6 +4,10 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      weekly-batch:
+        patterns:
+          - "*"
   - package-ecosystem: "npm"
     directories:
       - "/"
@@ -11,9 +15,15 @@ updates:
       - "/packages/oidc-jwt-verify-tachyon"
     schedule:
       interval: "weekly"
-    allow:
-      - dependency-name: "*"
-        dependency-type: "production"
+    groups:
+      dev-dependencies:
+        dependency-type: "development"
+        applies-to: version-updates
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
     ignore:
       - dependency-name: "*"
-        update-types: ["version-update:semver-patch"]
+        update-types: ["version-update:semver-major"]
