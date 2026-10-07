@@ -35,7 +35,7 @@ export class IssuerCertLoader {
 
 	public set logger(logger: ILoggerLike | undefined) {
 		this.#logger = logger;
-		this.configCache.logger.setLogger(logger);
+		this.configCache.logger.logger = logger;
 	}
 
 	public get logger(): ILoggerLike | undefined {

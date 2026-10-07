@@ -39,7 +39,7 @@
   "author": "mharj",
   "license": "MIT",
   "peerDependencies": {
-    "@avanio/expire-cache": "^0.6.7",
+    "@avanio/expire-cache": "^0.7.0",
     "@luolapeikko/cache-types": ">= 0.0.1",
     "@luolapeikko/logger-type": ">= 0.0.1",
     "@standard-schema/spec": "^1.1.0",
