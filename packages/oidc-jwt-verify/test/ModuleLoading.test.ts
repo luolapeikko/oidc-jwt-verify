@@ -8,12 +8,12 @@ describe('@luolapeikko/oidc-jwt-verify', () => {
 			const {CertCache} = require('@luolapeikko/oidc-jwt-verify');
 			expect(CertCache).toBeInstanceOf(Object);
 		});
-		it('test CJS jwtVerifyPromise', () => {
+		it('test CJS jwtVerifyPromise', async () => {
 			const {jwtVerifyPromise} = require('@luolapeikko/oidc-jwt-verify');
 			expect(jwtVerifyPromise).toBeInstanceOf(Function);
 			const privateKey = 'some-private-key';
 			const token = sign({foo: 'bar'}, privateKey);
-			expect(jwtVerifyPromise(token, privateKey)).resolves.toBeDefined();
+			await expect(jwtVerifyPromise(token, privateKey)).resolves.toBeDefined();
 		});
 	});
 	describe('ESM Module loading', () => {

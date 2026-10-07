@@ -6,6 +6,9 @@ export default defineConfig({
 	},
 	plugins: [],
 	test: {
+		env: {
+			NODE_ENV: 'testing',
+		},
 		reporters: ['verbose', 'github-actions'],
 		coverage: {
 			exclude: ['**/dist/**', '**/test/**', '**/*.test-d.ts', '**/index.ts'],

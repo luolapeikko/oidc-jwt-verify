@@ -241,24 +241,19 @@ importers:
 
   packages/oidc-jwt-verify:
     dependencies:
-      '@avanio/expire-cache':
-        specifier: ^0.7.0
-        version: 0.7.0(@luolapeikko/cache-types@0.0.10)(@luolapeikko/key-logger@0.1.0(@luolapeikko/logger-type@0.1.0)(@luolapeikko/loglevel-type@0.1.0))(@luolapeikko/logger-type@0.1.0)(@luolapeikko/loglevel-type@0.1.0)
-      '@luolapeikko/cache-types':
-        specifier: '>= 0.0.1'
-        version: 0.0.10
-      '@luolapeikko/logger-type':
-        specifier: '>= 0.0.1'
-        version: 0.1.0
-      '@standard-schema/spec':
-        specifier: ^1.1.0
-        version: 1.1.0
       '@types/jsonwebtoken':
         specifier: ^9
         version: 9.0.10
       jsonwebtoken:
         specifier: ^9
         version: 9.0.3
+    devDependencies:
+      '@luolapeikko/logger-type':
+        specifier: ^0.1.0
+        version: 0.1.0
+      '@standard-schema/spec':
+        specifier: ^1.1.0
+        version: 1.1.0
 
   packages/oidc-jwt-verify-tachyon:
     dependencies:
@@ -274,14 +269,6 @@ importers:
         version: link:../oidc-jwt-verify
 
 packages:
-
-  '@avanio/expire-cache@0.7.0':
-    resolution: {integrity: sha512-KxrzA9MyY0+fipTPkPzp48WlnZpxhbE9J7iLBAq8aj+4Bkl6BTRxJdVbozgjk+Uk9ZQJSYe8mpRvG02pThEBnQ==}
-    peerDependencies:
-      '@luolapeikko/cache-types': '>= 0.0.8'
-      '@luolapeikko/key-logger': '>= 0.1.0'
-      '@luolapeikko/logger-type': '>= 0.1.0'
-      '@luolapeikko/loglevel-type': '>= 0.1.0'
 
   '@babel/helper-string-parser@7.29.7':
     resolution: {integrity: sha512-Pb5ijPrZ89GDH8223L4UP8i6QApWxs04RbPQJTeWDV0/keR2E36MeKnyr6LYmUUvqRRI+Iv87SuF1W6ErINzYw==}
@@ -1785,13 +1772,6 @@ packages:
     resolution: {integrity: sha512-v5l/aFXZQeai4awLbOpSoHecE9UiMrnfx75tEXLjNonXVARxQ5mOeipTjROUchszUNCqnE+hqAMujRsRHsut2Q==}
 
 snapshots:
-
-  '@avanio/expire-cache@0.7.0(@luolapeikko/cache-types@0.0.10)(@luolapeikko/key-logger@0.1.0(@luolapeikko/logger-type@0.1.0)(@luolapeikko/loglevel-type@0.1.0))(@luolapeikko/logger-type@0.1.0)(@luolapeikko/loglevel-type@0.1.0)':
-    dependencies:
-      '@luolapeikko/cache-types': 0.0.10
-      '@luolapeikko/key-logger': 0.1.0(@luolapeikko/logger-type@0.1.0)(@luolapeikko/loglevel-type@0.1.0)
-      '@luolapeikko/logger-type': 0.1.0
-      '@luolapeikko/loglevel-type': 0.1.0
 
   '@babel/helper-string-parser@7.29.7': {}
 

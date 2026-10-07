@@ -1,5 +1,3 @@
-process.env.NODE_ENV = 'testing';
-
 import fs from 'node:fs';
 import type {StandardSchemaV1} from '@standard-schema/spec';
 import {JsonWebTokenError, type Jwt, type JwtHeader, type JwtPayload, decode as jwtDecode, sign as jwtSign} from 'jsonwebtoken';

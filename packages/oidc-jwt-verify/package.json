@@ -38,11 +38,11 @@
   ],
   "author": "mharj",
   "license": "MIT",
+  "devDependencies": {
+    "@luolapeikko/logger-type": "^0.1.0",
+    "@standard-schema/spec": "^1.1.0"
+  },
   "peerDependencies": {
-    "@avanio/expire-cache": "^0.7.0",
-    "@luolapeikko/cache-types": ">= 0.0.1",
-    "@luolapeikko/logger-type": ">= 0.0.1",
-    "@standard-schema/spec": "^1.1.0",
     "@types/jsonwebtoken": "^9",
     "jsonwebtoken": "^9"
   }

@@ -1,9 +1,8 @@
-import {ExpireCache} from '@avanio/expire-cache';
-import type {IAsyncCache} from '@luolapeikko/cache-types';
 import type {ILoggerLike} from '@luolapeikko/logger-type';
 import jwt from 'jsonwebtoken';
 import type {CertCache} from '../cache/CertCache';
 import {type FullDecodedIssuerTokenStructure, isRawJwtToken} from '../interfaces/token';
+import {ExpireCache, type IExpireAsyncCache, type IExpireCache} from './ExpireCache';
 import {IssuerCertLoader} from './issuerCertLoader';
 import {JwtHeaderError} from './JwtHeaderError';
 import {jwtVerifyPromise} from './jwtUtil';
@@ -19,11 +18,11 @@ let certLoaderInstance = new IssuerCertLoader();
 /**
  * Cache for resolved token payloads, default is in memory cache
  */
-let tokenCache: IAsyncCache<jwt.JwtPayload> = new ExpireCache<jwt.JwtPayload>();
+let tokenCache: IExpireCache<jwt.JwtPayload> | IExpireAsyncCache<jwt.JwtPayload> = new ExpireCache<jwt.JwtPayload>();
 /***
  * Setup token cache for verified payloads, on production this should be encrypted if persisted
  */
-export function setTokenCache(cache: IAsyncCache<jwt.JwtPayload>): void {
+export function setTokenCache(cache: IExpireCache<jwt.JwtPayload> | IExpireAsyncCache<jwt.JwtPayload>): void {
 	tokenCache = cache;
 }
 
@@ -38,7 +37,7 @@ export function useCache(cacheFunctions: CertCache): Promise<void> {
 	return certLoaderInstance.setCache(cacheFunctions);
 }
 
-export function testGetCache(): IAsyncCache<jwt.JwtPayload> {
+export function testGetCache(): IExpireCache<jwt.JwtPayload> | IExpireAsyncCache<jwt.JwtPayload> {
 	/* istanbul ignore else  */
 	if (process.env.NODE_ENV === 'testing') {
 		return tokenCache;

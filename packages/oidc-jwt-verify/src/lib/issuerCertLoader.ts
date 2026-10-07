@@ -1,17 +1,13 @@
-import {ExpireCache, type ExpireCacheLogMapType} from '@avanio/expire-cache';
 import type {ILoggerLike} from '@luolapeikko/logger-type';
 import type {CertCache} from '../cache/CertCache';
 import type {CertIssuerRecord, CertRecords} from '../interfaces/CertRecords';
 import type {JsonWebKey} from '../interfaces/JsonWebKey';
 import type {OpenIdConfig} from '../interfaces/OpenIdConfig';
 import type {OpenIdConfigCerts} from '../interfaces/OpenIdConfigCerts';
+import {ExpireCache} from './ExpireCache';
 import {rsaPublicKeyPem} from './rsaPublicKeyPem';
 
 export type IssuerCertLoaderProps = {
-	/**
-	 * Log mapping for ExpireCache (optional)
-	 */
-	expireCacheLogMap?: Partial<ExpireCacheLogMapType>;
 	logger?: ILoggerLike;
 };
 
@@ -28,14 +24,13 @@ export class IssuerCertLoader {
 	private configCache: ExpireCache<OpenIdConfig>;
 	#logger: ILoggerLike | undefined;
 
-	public constructor({expireCacheLogMap, logger}: IssuerCertLoaderProps = {}) {
+	public constructor({logger}: IssuerCertLoaderProps = {}) {
 		this.#logger = logger;
-		this.configCache = new ExpireCache<OpenIdConfig>(this.logger, expireCacheLogMap, 86400000); // default OpenId config cache for 24 hours
+		this.configCache = new ExpireCache<OpenIdConfig>(86400000); // default OpenId config cache for 24 hours
 	}
 
 	public set logger(logger: ILoggerLike | undefined) {
 		this.#logger = logger;
-		this.configCache.logger.logger = logger;
 	}
 
 	public get logger(): ILoggerLike | undefined {
