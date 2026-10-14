@@ -1,7 +1,7 @@
 import {defineConfig} from 'tsdown';
 
 export default defineConfig({
-    entry: ['./src/index.ts'],
+	entry: ['./src/index.ts'],
 	format: {
 		esm: {
 			target: ['es2020'],
@@ -12,6 +12,6 @@ export default defineConfig({
 	},
 	dts: true,
 	deps: {
-        onlyBundle: ['@luolapeikko/logger-type', '@standard-schema/spec'],
-    },
+		onlyBundle: ['@luolapeikko/logger-type', '@standard-schema/spec'],
+	},
 });
