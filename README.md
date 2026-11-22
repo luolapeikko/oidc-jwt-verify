@@ -13,7 +13,7 @@ Monorepo containing two complementary packages for validating OIDC JWTs and addi
 Core OIDC JWT validation library.
 
 - Validates asymmetric JWT tokens (OIDC/OpenID providers)
-- Builds public PEM certificates from JWK modulus + exponent
+- Builds public PEM certificates from JWK modulus and exponent values
 - Caches issuer OpenID configuration for 24 hours
 - Reloads key set when a new `kid` is seen
 - Supports pluggable certificate and token caches

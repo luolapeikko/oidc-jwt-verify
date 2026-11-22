@@ -19,7 +19,7 @@ export class IssuerCertLoader {
 	private cache: CertCache | undefined;
 	private cacheLoaded = false;
 	/**
-	 * Cache for OpenId configs
+	 * Cache for OpenID configurations.
 	 */
 	private configCache: ExpireCache<OpenIdConfig>;
 	#logger: ILoggerLike | undefined;
@@ -139,7 +139,7 @@ export class IssuerCertLoader {
 	}
 
 	/**
-	 * Loops through all issuer certs and counts them
+	 * Loops through all issuer certificates and counts them.
 	 */
 	private countCerts() {
 		return Object.values(this.store.certs).reduce((last, current) => {
@@ -148,12 +148,12 @@ export class IssuerCertLoader {
 	}
 
 	/**
-	 * takes cert item and builds PEM string (from x5c or n and e)
+	 * Takes a certificate item and builds a PEM string from `x5c`, or from `n` and `e`.
 	 */
 	private buildStringCert(cert: JsonWebKey): string {
 		/* istanbul ignore else if  */
 		if (cert.n && cert.e) {
-			// we have modulo and exponent, build PEM to cert.x5c
+			// Build the PEM certificate from the modulus and exponent.
 			return rsaPublicKeyPem(cert.n, cert.e);
 		}
 		if (cert.x5c) {
@@ -171,7 +171,7 @@ export class IssuerCertLoader {
 	}
 
 	/**
-	 * Get cert list from issuer.
+	 * Gets the certificate list from the issuer.
 	 */
 	private async getCertList(issuerUrl: string): Promise<OpenIdConfigCerts> {
 		this.logger?.debug(`jwt-util getCertList ${issuerUrl}`);
@@ -181,11 +181,11 @@ export class IssuerCertLoader {
 	}
 
 	/**
-	 * Get OpenId Configuration from issuer.
+	 * Gets the OpenID configuration from the issuer.
 	 *
 	 * - Uses cache if available
 	 * - If not in cache, downloads from issuer
-	 * - Caches config for 24h
+	 * - Caches the configuration for 24 hours
 	 */
 	private async getConfiguration(issuerUrl: string): Promise<OpenIdConfig> {
 		const currentConfig = this.configCache.get(issuerUrl);
@@ -199,7 +199,7 @@ export class IssuerCertLoader {
 	}
 
 	/**
-	 * Download OpenId Configuration from issuer.
+	 * Downloads the OpenID configuration from the issuer.
 	 */
 	private async fetchOpenIdConfig(issuer: string): Promise<OpenIdConfig> {
 		const configUrl = new URL(issuer);
@@ -210,7 +210,7 @@ export class IssuerCertLoader {
 	}
 
 	/**
-	 * Check if response is valid.
+	 * Checks whether the response is valid.
 	 *
 	 * - Ensure that response status is 200.
 	 */

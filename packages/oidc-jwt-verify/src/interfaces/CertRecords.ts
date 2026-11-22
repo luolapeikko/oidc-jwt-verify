@@ -8,7 +8,7 @@ export type CertRecords = {
 };
 
 /**
- * Standard schema for the public cert records
+ * Standard schema for public certificate records.
  * @since v0.8.0
  * @example
  * const certRecordsSchema = z.object({ _ts: z.number(), certs: z.record(z.string(), z.record(z.string(), z.string())) }) satisfies StandardSchemaV1<unknown, CertRecords>;

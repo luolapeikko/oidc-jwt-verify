@@ -1,5 +1,5 @@
 /**
- * OpenId Configuration.
+ * OpenID configuration.
  *
  * - [OpenID Spec](https://openid.net/specs/openid-connect-discovery-1_0.html)
  * - [Azure](https://login.microsoftonline.com/common/.well-known/openid-configuration)

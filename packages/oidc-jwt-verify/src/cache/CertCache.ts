@@ -1,7 +1,7 @@
 import type {CertRecords} from '../interfaces/CertRecords';
 
 /**
- * CertCache is an abstract class that defines the interface for caching public certificates used for JWT verification.
+ * Abstract base class for caching public certificates used in JWT verification.
  * @category CertCache
  */
 export abstract class CertCache {

@@ -3,13 +3,13 @@ import jwt from 'jsonwebtoken';
 export type JwtVerifyPromiseFunc = (...params: Parameters<typeof jwt.verify>) => Promise<jwt.JwtPayload>;
 
 /**
- * Jwt validate Promise wrapper for jwt.verify function
+ * Promise wrapper for the `jwt.verify` function.
  * @throws `JsonWebTokenError` if token is invalid
  * @throws `TokenExpiredError` if token is expired
  * @throws `NotBeforeError` if current time is before the nbf claim
  * @param token JWT token string to verify
  * @param secretOrPublicKey Secret or public key for verifying the token
- * @param options Optional jwt verify options
+ * @param options Optional JWT verification options
  * @returns Promise that resolves with the decoded token payload if verification is successful, or rejects with an error if verification fails
  * @example
  * const decoded = await jwtVerifyPromise(token, secretOrPublicKey, options);

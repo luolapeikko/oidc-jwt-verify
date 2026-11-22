@@ -6,10 +6,10 @@
 [![Code Coverage](https://qlty.sh/gh/luolapeikko/projects/oidc-jwt-verify/coverage.svg)](https://qlty.sh/gh/luolapeikko/projects/oidc-jwt-verify)
 [![CI/CD](https://github.com/luolapeikko/oidc-jwt-verify/actions/workflows/oidc-jwt-verify-tachyon.yml/badge.svg)](https://github.com/luolapeikko/oidc-jwt-verify/actions/workflows/oidc-jwt-verify-tachyon.yml)
 
-## Tachyon drivers for @luolapeikko/oidc-jwt-verify caches
+## Tachyon drivers for `@luolapeikko/oidc-jwt-verify` caches
 
-- Tachyon storage driver can be used as public ssl cert caching.
-- Tachyon storage driver can be used as validated token caching.
+- A Tachyon storage driver can cache public SSL certificates.
+- A Tachyon storage driver can cache validated tokens.
 
 ## Enable public cert file caching
 

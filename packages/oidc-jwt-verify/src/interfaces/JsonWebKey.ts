@@ -1,7 +1,7 @@
 /**
- * Json Web Key validation schema.
+ * JSON Web Key validation schema.
  *
- * - [Json Web Key Spec](https://www.rfc-editor.org/rfc/rfc7517)
+ * - [JSON Web Key specification](https://www.rfc-editor.org/rfc/rfc7517)
  */
 export type JsonWebKey = {
 	e: string;

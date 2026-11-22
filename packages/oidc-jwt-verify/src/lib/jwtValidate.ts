@@ -11,16 +11,16 @@ import {buildCertFrame} from './rsaPublicKeyPem';
 const bearerRegex = /^Bearer (.*?)$/i;
 
 /**
- * Default instance of IssuerCertLoader
+ * Default instance of `IssuerCertLoader`.
  */
 let certLoaderInstance = new IssuerCertLoader();
 
 /**
- * Cache for resolved token payloads, default is in memory cache
+ * Cache for resolved token payloads. The default cache is in memory.
  */
 let tokenCache: IExpireCache<jwt.JwtPayload> | IExpireAsyncCache<jwt.JwtPayload> = new ExpireCache<jwt.JwtPayload>();
-/***
- * Setup token cache for verified payloads, on production this should be encrypted if persisted
+/**
+ * Sets up the cache for verified payloads. In production, persisted caches should be encrypted.
  */
 export function setTokenCache(cache: IExpireCache<jwt.JwtPayload> | IExpireAsyncCache<jwt.JwtPayload>): void {
 	tokenCache = cache;
@@ -31,7 +31,7 @@ export function setJwtLogger(logger: ILoggerLike): void {
 }
 
 /**
- * Setup cache for public certificates
+ * Sets up the cache for public certificates.
  */
 export function useCache(cacheFunctions: CertCache): Promise<void> {
 	return certLoaderInstance.setCache(cacheFunctions);
@@ -72,10 +72,10 @@ function getKeyIdAndSetOptions(decoded: FullDecodedIssuerTokenStructure, options
 }
 
 /**
- * Validate full decoded token object that body have "iss" set
- * @param decoded complete jwt decode with header
- * @param options jwt verification options
- * @returns IIssuerTokenStructure which have "iss" and valid issuer if limited on options
+ * Validates a fully decoded token and ensures that its payload contains an `iss` claim.
+ * @param decoded Complete JWT decode, including the header
+ * @param options JWT verification options
+ * @returns The issuer token structure, including `iss`, when issuer restrictions are configured
  */
 function haveValidIssuer(decoded: null | jwt.Jwt, options: jwt.VerifyOptions): FullDecodedIssuerTokenStructure {
 	if (!decoded) {
@@ -98,17 +98,17 @@ function haveValidIssuer(decoded: null | jwt.Jwt, options: jwt.VerifyOptions): F
 }
 
 /**
- * Response have decoded body and information if was already verified and returned from cache
+ * The response contains the decoded body and indicates whether it was returned from the cache.
  */
 export type JwtResponse<T extends object> = {body: T & jwt.JwtPayload; isCached: boolean};
 /**
- * Verify JWT token against issuer public certs
+ * Verifies a JWT token against the issuer's public certificates.
  * @throws `JsonWebTokenError` if token is invalid
  * @throws `TokenExpiredError` if token is expired
  * @throws `NotBeforeError` if current time is before the nbf claim
  * @throws `JwtHeaderError` if token is not in JWT format.
- * @param tokenOrBearer jwt token or Bearer string with jwt token
- * @param options jwt verify options
+ * @param tokenOrBearer JWT token or Bearer string containing the JWT token
+ * @param options JWT verification options
  */
 export async function jwtVerify<T extends object>(tokenOrBearer: string, options: jwt.VerifyOptions = {}): Promise<JwtResponse<T>> {
 	if (typeof tokenOrBearer !== 'string') {
@@ -132,13 +132,13 @@ export async function jwtVerify<T extends object>(tokenOrBearer: string, options
 }
 
 /**
- * Verify auth "Bearer" header against issuer public certs
+ * Verifies an authentication `Bearer` header against the issuer's public certificates.
  * @throws `JsonWebTokenError` if token is invalid
  * @throws `TokenExpiredError` if token is expired
  * @throws `NotBeforeError` if current time is before the nbf claim
  * @throws `JwtHeaderError` if token is not in JWT format.
- * @param authHeader raw authentication header with ^Bearer prefix
- * @param options jwt verify options
+ * @param authHeader Raw authentication header with a `Bearer` prefix
+ * @param options JWT verification options
  */
 export function jwtBearerVerify<T extends object>(authHeader: string, options: jwt.VerifyOptions = {}): Promise<JwtResponse<T>> {
 	const match = bearerRegex.exec(authHeader);

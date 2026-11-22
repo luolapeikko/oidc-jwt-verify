@@ -16,7 +16,7 @@ const initialCerts: CertRecords = {
 };
 
 /**
- * FileCertCache is a CertCache implementation that stores the JWT cert records in a file.
+ * `CertCache` implementation that stores JWT certificate records in a file.
  * @since v0.8.0
  * @category CertCache
  * @example
