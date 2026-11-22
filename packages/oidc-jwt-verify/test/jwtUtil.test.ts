@@ -216,7 +216,7 @@ describe('jwtUtil', () => {
 			);
 		});
 		it('should throw if issuer is not found (json error)', async () => {
-			await expect(icl.getCert('https://google.com', 'unknown')).rejects.toEqual(new Error('pullIssuerCerts https://google.com fetch error: Not Found'));
+			await expect(icl.getCert('https://google.com', 'unknown')).rejects.toEqual(new Error('pullIssuerCerts https://google.com fetch error: 404'));
 		});
 		it('should throw when get cert for unknown kid ', async () => {
 			await expect(icl.getCert('https://accounts.google.com', 'unknown')).rejects.toEqual(

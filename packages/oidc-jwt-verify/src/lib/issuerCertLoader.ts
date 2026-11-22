@@ -216,7 +216,7 @@ export class IssuerCertLoader {
 	 */
 	private isValidResp(resp: Response): Response {
 		if (resp.status !== 200) {
-			throw new Error(`fetch error: ${resp.statusText}`);
+			throw new Error(`fetch error: ${resp.status}`);
 		}
 		return resp;
 	}
